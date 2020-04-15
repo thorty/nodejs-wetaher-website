@@ -32,11 +32,11 @@ const getWeather = (location, callback) => {
         if (error) {
             callback(error, undefined);
         } else {
-            current(longitude, latitude, (error, currentWeather) => {
+            current(longitude, latitude, (error, iconUri, currentWeather) => {
                 if (error) {
-                    callback(error, undefined);
+                    callback(error, undefined,undefined);
                 } else {
-                    callback(undefined, {location, currentWeather})
+                    callback(undefined, {location, iconUri, currentWeather})
                 }
             })
         }
@@ -80,7 +80,8 @@ app.get('/weather', (req, res) => {
                 res.send({ 
                     address: req.query.address,
                     location: data.location,
-                    weather: data.currentWeather            
+                    weather: data.currentWeather ,
+                    iconUri: data.iconUri        
                 })
             }            
         })
@@ -104,5 +105,5 @@ app.get('*', (req, res) => {
 })
 
 app.listen(port, () => {
-    console.log('Server is up on port'+port)
+    console.log('Server is up on port '+port)
 })
